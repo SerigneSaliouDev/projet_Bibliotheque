@@ -89,36 +89,6 @@ frontend/
         └── BorrowsPage.jsx     # Gestion des emprunts
 ```
 
----
-
-## Structure du projet Backend
-
-```
-backend/
-├── app.js                      # Configuration Express
-├── server.js                   # Démarrage du serveur
-├── package.json
-├── .env                        # Variables d'environnement
-├── uploads/                    # Images de couverture des livres
-├── config/
-│   └── db.js                   # Connexion Sequelize / MySQL
-├── models/
-│   ├── index.js                # Associations entre modèles
-│   ├── User.js                 # Modèle utilisateur
-│   ├── Category.js             # Modèle catégorie
-│   ├── Book.js                 # Modèle livre
-│   ├── Member.js               # Modèle membre
-│   └── Borrow.js               # Modèle emprunt
-├── controllers/                # Logique métier
-├── routes/                     # Définition des routes API
-├── middleware/
-│   ├── auth.js                 # Vérification JWT
-│   ├── errorHandler.js         # Gestion des erreurs
-│   └── upload.js               # Upload d'images (Multer)
-└── validators/                 # Validation des données (Joi)
-```
-
----
 
 ## API REST — Endpoints
 
