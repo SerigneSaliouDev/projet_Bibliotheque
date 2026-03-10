@@ -137,6 +137,91 @@ frontend/
 | GET | `/api/stats/members` | Statistiques membres |
 | GET | `/api/stats/borrows` | Statistiques emprunts |
 
+#### `GET /api/stats/books` — Réponse
+
+```json
+{
+  "totalBooks": 42,
+  "totalAvailable": 30,
+  "totalBorrowed": 12,
+  "byCategory": [
+    {
+      "category_id": 1,
+      "count": 15,
+      "category": { "name": "Roman" }
+    },
+    {
+      "category_id": 2,
+      "count": 10,
+      "category": { "name": "Sciences" }
+    }
+  ]
+}
+```
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `totalBooks` | `number` | Nombre total de livres enregistrés |
+| `totalAvailable` | `number` | Somme des quantités disponibles à l'emprunt |
+| `totalBorrowed` | `number` | Nombre d'emprunts actuellement actifs (status = borrowed) |
+| `byCategory` | `array` | Répartition du nombre de livres par catégorie |
+| `byCategory[].category_id` | `number` | ID de la catégorie |
+| `byCategory[].count` | `number` | Nombre de livres dans cette catégorie |
+| `byCategory[].category.name` | `string` | Nom de la catégorie |
+
+---
+
+#### `GET /api/stats/members` — Réponse
+
+```json
+{
+  "totalMembers": 100,
+  "activeMembers": 85,
+  "inactiveMembers": 15
+}
+```
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `totalMembers` | `number` | Nombre total de membres inscrits |
+| `activeMembers` | `number` | Membres avec le statut `active` |
+| `inactiveMembers` | `number` | Membres avec le statut `inactive` |
+
+---
+
+#### `GET /api/stats/borrows` — Réponse
+
+```json
+{
+  "totalBorrows": 200,
+  "activeBorrows": 12,
+  "returnedBorrows": 183,
+  "overdueBorrows": 5,
+  "mostBorrowed": [
+    {
+      "book_id": 3,
+      "borrow_count": "18",
+      "book": {
+        "title": "Le Petit Prince",
+        "author": "Antoine de Saint-Exupéry"
+      }
+    }
+  ]
+}
+```
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `totalBorrows` | `number` | Nombre total d'emprunts (toutes périodes) |
+| `activeBorrows` | `number` | Emprunts en cours (non retournés) |
+| `returnedBorrows` | `number` | Emprunts soldés (livre retourné) |
+| `overdueBorrows` | `number` | Emprunts actifs dont la date de retour est dépassée |
+| `mostBorrowed` | `array` | Top 5 des livres les plus empruntés |
+| `mostBorrowed[].book_id` | `number` | ID du livre |
+| `mostBorrowed[].borrow_count` | `string` | Nombre total d'emprunts pour ce livre |
+| `mostBorrowed[].book.title` | `string` | Titre du livre |
+| `mostBorrowed[].book.author` | `string` | Auteur du livre |
+
 ---
 
 ## Technologies utilisées
