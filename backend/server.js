@@ -16,10 +16,12 @@ app.use(express.json());                  // Parse le body JSON des requêtes
 app.use(express.urlencoded({ extended: true })); // Parse les formulaires (utile pour Multer)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Sert les images statiquement
 
+
 // ─── Routes (on les branchera au fur et à mesure) ─────────────
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/members', require('./routes/members'));
+app.use("/api/books", require("./routes/books"));
 
 // ─── Route de test ────────────────────────────────────────────
 app.get('/', (req, res) => {
