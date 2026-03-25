@@ -1,5 +1,6 @@
 const sequelize = require('../config/database');
 const User = require('./User');
+const Member = require('./Member');
 
 // Modèles du Dev B (importés seulement s'ils existent)
 let Book = null;
@@ -42,4 +43,4 @@ const syncDatabase = async () => {
 
 syncDatabase();
 
-module.exports = { sequelize, User, Book, Category };
+module.exports = { sequelize, User, Book, Category, Member };
