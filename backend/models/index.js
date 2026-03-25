@@ -19,7 +19,7 @@ if (Book && Category) {
 const syncDatabase = async () => {
   try {
     await sequelize.sync({ alter: true });
-    console.log('✅ Tables synchronisées avec MySQL');
+    console.log(' Tables synchronisées avec MySQL');
 
     const bcrypt = require('bcryptjs');
     const adminExists = await User.findOne({ 
@@ -33,11 +33,11 @@ const syncDatabase = async () => {
         email: 'admin@bibliotheque.com',
         password: hashedPassword,
       });
-      console.log('✅ Compte admin créé : admin@bibliotheque.com / admin123');
+      console.log(' Compte admin créé : admin@bibliotheque.com / admin123');
     }
 
   } catch (error) {
-    console.error('❌ Erreur synchronisation :', error.message);
+    console.error('Erreur synchronisation :', error.message);
   }
 };
 
