@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+
 const {
   getBooks,
   getBook,
@@ -10,46 +8,21 @@ const {
   updateBook,
   deleteBook,
 } = require('../controllers/bookController');
+
 const verifyToken = require('../middlewares/auth');
+const upload = require("../middlewares/upload");
 
-// ─── Configuration Multer (upload images) ─────────────────────
-const uploadDir = path.join(__dirname, '../uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+// Protection de toutes les routes
+router.use(verifyToken);
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  },
-});
+// Routes
+router.get('/', getBooks);
+router.get('/:id', getBook);
 
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif|webp/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
-  if (extname && mimetype) {
-    cb(null, true);
-  } else {
-    cb(new Error('Seules les images sont autorisées (jpeg, jpg, png, gif, webp)'));
-  }
-};
+//  Upload image ici
+router.post('/', upload.single('cover_image'), createBook);
+router.put('/:id', upload.single('cover_image'), updateBook);
 
-const upload = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max
-});
-
-// ─── Routes books ─────────────────────────────────────────────
-router.get('/', verifyToken, getBooks);
-router.get('/:id', verifyToken, getBook);
-router.post('/', verifyToken, upload.single('cover_image'), createBook);
-router.put('/:id', verifyToken, upload.single('cover_image'), updateBook);
-router.delete('/:id', verifyToken, deleteBook);
+router.delete('/:id', deleteBook);
 
 module.exports = router;
