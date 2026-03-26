@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true })); // Parse les formulaires (utile
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Sert les images statiquement
 
 
+
 // ─── Routes (on les branchera au fur et à mesure) ─────────────
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/categories', require('./routes/categories'));
