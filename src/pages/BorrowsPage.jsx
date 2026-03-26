@@ -44,13 +44,13 @@ export default function BorrowsPage() {
     } catch (err) { toast.error(err.response?.data?.message || 'Erreur'); }
   };
 
+  const today = new Date().toISOString().split('T')[0];
+
   const getStatusBadge = (status, dueDate) => {
     if (status === 'returned') return <span className="badge bg-success">Retourné</span>;
-    if (new Date(dueDate) < new Date()) return <span className="badge bg-danger">En retard</span>;
+    if (status === 'overdue' || dueDate <= today) return <span className="badge bg-danger">En retard</span>;
     return <span className="badge bg-warning text-dark">En cours</span>;
   };
-
-  const today = new Date().toISOString().split('T')[0];
 
   return (
     <div>
@@ -66,6 +66,7 @@ export default function BorrowsPage() {
           <select className="form-select" value={filterStatus} onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}>
             <option value="">Tous les statuts</option>
             <option value="borrowed">En cours</option>
+            <option value="overdue">En retard</option>
             <option value="returned">Retournés</option>
           </select>
         </div>

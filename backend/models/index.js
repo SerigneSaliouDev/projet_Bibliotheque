@@ -1,19 +1,30 @@
 const sequelize = require('../config/database');
 const User = require('./User');
 const Member = require('./Member');
+const Category = require("./Category");
+const Book = require("./Book");
+const Borrow = require("./Borrow");
 
-// Modèles du Dev B (importés seulement s'ils existent)
-let Book = null;
-let Category = null;
+const db = {
+  sequelize,
+  User,
+  Category,
+  Book,
+  Member,
+  Borrow
+};
 
-try { Book = require('./Book'); } catch (e) {}
-try { Category = require('./Category'); } catch (e) {}
+// Relations Category <-> Book
+Category.hasMany(Book, { foreignKey: "category_id", as: "books" });
+Book.belongsTo(Category, { foreignKey: "category_id", as: "category" });
 
-// ─── Associations ─────────────────────────────────────────────
-if (Book && Category) {
-  Book.belongsTo(Category, { foreignKey: 'category_id', as: 'category' });
-  Category.hasMany(Book, { foreignKey: 'category_id', as: 'books' });
-}
+// Relations Member <-> Borrow
+Member.hasMany(Borrow, { foreignKey: "member_id", as: "borrows" });
+Borrow.belongsTo(Member, { foreignKey: "member_id", as: "member" });
+
+// Relations Book <-> Borrow
+Book.hasMany(Borrow, { foreignKey: "book_id", as: "borrows" });
+Borrow.belongsTo(Book, { foreignKey: "book_id", as: "book" });
 
 // ─── Synchronisation & Seed Admin ─────────────────────────────
 const syncDatabase = async () => {
@@ -44,3 +55,4 @@ const syncDatabase = async () => {
 syncDatabase();
 
 module.exports = { sequelize, User, Book, Category, Member };
+module.exports = db;
